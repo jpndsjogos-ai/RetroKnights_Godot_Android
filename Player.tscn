@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource path="res://scripts/Player.gd" type="Script" id="1"]
+[ext_resource path="res://assets/player/armor_iron.svg" type="Texture2D" id="2"]
+[ext_resource path="res://assets/player/sword_iron.svg" type="Texture2D" id="3"]
+
+[sub_resource type="RectangleShape2D" id="BodyShape"]
+size = Vector2(42, 78)
+
+[sub_resource type="RectangleShape2D" id="HurtShape"]
+size = Vector2(38, 68)
+
+[sub_resource type="RectangleShape2D" id="HitShape"]
+size = Vector2(58, 38)
+
+[sub_resource type="RectangleShape2D" id="GroundShape"]
+size = Vector2(36, 10)
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1")
+collision_layer = 1
+collision_mask = 2
+z_index = 10
+
+[node name="Body" type="Sprite2D" parent="."]
+texture = ExtResource("2")
+position = Vector2(0, -24)
+
+[node name="Sword" type="Sprite2D" parent="."]
+texture = ExtResource("3")
+position = Vector2(38, -25)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -30)
+shape = SubResource("BodyShape")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 8
+monitoring = true
+monitorable = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -30)
+shape = SubResource("HurtShape")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 4
+monitoring = true
+monitorable = true
+monitorable = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(42, -30)
+shape = SubResource("HitShape")
+disabled = true
+
+[node name="GroundCheck" type="RayCast2D" parent="."]
+position = Vector2(0, 4)
+target_position = Vector2(0, 12)
+collision_mask = 2
+enabled = true
